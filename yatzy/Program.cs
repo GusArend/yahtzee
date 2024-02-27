@@ -2,13 +2,16 @@
 {
     internal class Program
     {
+       
         private static void Main(string[] args)
         {
+            int Width = 150, Height = 40;
             List<Player> players = new List<Player>();
             GameLogic gameLogic = new GameLogic(players);
-
-            string yahtzee = " /$$     /$$        /$$         /$$                                 \r\n|  $$   /$$/       | $$        | $$                                 \r\n \\  $$ /$$//$$$$$$ | $$$$$$$  /$$$$$$  /$$$$$$$$  /$$$$$$   /$$$$$$ \r\n  \\  $$$$/|____  $$| $$__  $$|_  $$_/ |____ /$$/ /$$__  $$ /$$__  $$\r\n   \\  $$/  /$$$$$$$| $$  \\ $$  | $$      /$$$$/ | $$$$$$$$| $$$$$$$$\r\n    | $$  /$$__  $$| $$  | $$  | $$ /$$ /$$__/  | $$_____/| $$_____/\r\n    | $$ |  $$$$$$$| $$  | $$  |  $$$$//$$$$$$$$|  $$$$$$$|  $$$$$$$\r\n    |__/  \\_______/|__/  |__/   \\___/ |________/ \\_______/ \\_______/";
-            Console.WriteLine(yahtzee);
+            Art art = new Art();
+            Console.SetWindowSize(Width, Height);
+           
+            Console.WriteLine(art.yahtzee);
 
             Console.Write("\nPress Enter to start.");
             Console.ReadLine();
@@ -28,6 +31,8 @@
                 }
                 gameLogic.StartGame();
             }
+
+            
         }
     }
 }

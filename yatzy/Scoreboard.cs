@@ -12,10 +12,15 @@
         public int TwoPairs { get; set; }
         public int ThreeOfKind { get; set; }
         public int FourOfKind { get; set; }
+        public int FullHouse { get; set; }
         public int SmallStraight { get; set; }
         public int BigStraight { get; set; }
         public int Chance { get; set; }
         public int Yahtzee { get; set; }
+
+        // public int[] TopBoard;
+        public int TopBoardScore { get; set; }
+        public int LowerBoardScore { get; set; }
 
         public string[] scoreboard;
 
@@ -31,10 +36,15 @@
             TwoPairs = -1;
             ThreeOfKind = -1;
             FourOfKind = -1;
+            FullHouse = -1;
             SmallStraight = -1;
             BigStraight = -1;
             Chance = -1;
             Yahtzee = -1;
+
+            
+
+
         }
 
         public void UpdateUpperBoard(int[] diceValues, int num)
@@ -47,6 +57,7 @@
                     sum += diceValue;
                 }
             }
+            TopBoardScore += sum;
             switch (num)
             {
                 case 1: Ones = sum; break;
@@ -83,6 +94,7 @@
                 }
             }
             OnePair = highestPairValue * 2;
+            LowerBoardScore += OnePair;
         }
 
         public void UpdateTwoPair(int[] diceValues)
@@ -101,12 +113,13 @@
 
             foreach (int value in frequencies.Keys)
             {
-                if (frequencies[value] >= 2)
+                if (frequencies[value] == 2)
                 {
-                    pairValue += (frequencies[value] * 2);
+                    pairValue += (value * 2);
                 }
             }
             TwoPairs = pairValue;
+            LowerBoardScore += TwoPairs;
         }
 
         public void UpdateThreeOfKind(int[] diceValues)
@@ -131,6 +144,7 @@
                 }
             }
             ThreeOfKind = pairValue;
+            LowerBoardScore += ThreeOfKind;
         }
 
         public void UpdateFourOfKind(int[] diceValues)
@@ -151,10 +165,49 @@
             {
                 if (frequencies[value] >= 4)
                 {
-                    pairValue += frequencies[value] * 4;
+                    pairValue += (value * 4);
                 }
             }
             FourOfKind = pairValue;
+            LowerBoardScore += FourOfKind;
+        }
+
+        public void UpdateFullHouse(int[] diceValues)
+        {
+            var frequencies = new Dictionary<int, int>();
+            bool three = false;
+            bool pair = false;
+
+            foreach (int value in diceValues)
+            {
+                if (!frequencies.ContainsKey(value))
+                {
+                    frequencies[value] = 0;
+                }
+                frequencies[value]++;
+            }
+
+            foreach (int value in frequencies.Keys)
+            {
+                if (frequencies[value] == 3)
+                {
+                    three = true;
+                }
+                else if (frequencies[value] == 2)
+                {
+                    pair = true;
+                }
+            }
+            if (three && pair)
+            {
+                FullHouse = 40;
+            }
+            else
+            {
+                FullHouse = 0;
+            }
+
+            LowerBoardScore += FullHouse;
         }
 
         public void UpdateSmallStraight(int[] diceValues)
@@ -169,6 +222,7 @@
                                 score = 15;
 
             SmallStraight = score;
+            LowerBoardScore += SmallStraight;
         }
 
         public void UpdateBigStraight(int[] diceValues)
@@ -183,6 +237,7 @@
                                 score = 20;
 
             BigStraight = score;
+            LowerBoardScore += BigStraight;
         }
 
         public void UpdateChance(int[] diceValues)
@@ -193,6 +248,7 @@
                 score += diceValue;
             }
             Chance = score;
+            LowerBoardScore += Chance;
         }
 
         public void UpdateYahtzee(int[] diceValues)
@@ -216,10 +272,12 @@
                 }
             }
             Yahtzee = score;
+            LowerBoardScore += Yahtzee;
         }
 
         public void ShowScoreboard()
         {
+            int secoundColStart = Console.WindowWidth / 2;
             scoreboard =
                 [
                     $"1. 1’ere: Summen af alle terninger med 1.______________________________{(Ones == -1 ? "X" : Ones)}",
@@ -228,18 +286,28 @@
                     $"4. 4’ere: Summen af alle terninger med 4.______________________________{(Fours == -1 ? "X" : Fours)}",
                     $"5. 5’ere: Summen af alle terninger med 5.______________________________{(Fives == -1 ? "X" : Fives)}",
                     $"6. 6’ere: Summen af alle terninger med 6.______________________________{(Sixes == -1 ? "X" : Sixes)}",
+                    $"                                                                           ",
+                    $"Den samlede score for øverste del:_____________________________________{TopBoardScore}",
+                    $"                                                                           ",
                     $"7. Et par: To terninger med samme værdi. Summen af terningerne.________{(OnePair == -1 ? "X" : OnePair)}",
                     $"8. To par: To forskellige par.Summen af terningerne.___________________{(TwoPairs == -1 ? "X" : TwoPairs)}",
                     $"9. Tre ens: Tre terninger med samme værdi. Summen af terningerne.______{(ThreeOfKind == -1 ? "X" : ThreeOfKind)}",
                     $"10. Fire ens:Fire terninger med samme værdi. Summen af terningerne.____{(FourOfKind == -1 ? "X" : FourOfKind)}",
-                    $"11. Lille straight: Fem terninger i rækkefølge fra 1 til 5. 15 point.__{(SmallStraight == -1 ? "X" : SmallStraight)}",
-                    $"12. Storestraight: Fem terninger i rækkefølge fra 2 til 6. 20 point.___{(BigStraight == -1 ? "X" : BigStraight)}",
-                    $"13. Chancen: Summen af alle fem terninger._____________________________{(Chance == -1 ? "X" : Chance)}",
-                    $"14. Yatzy: Fem terninger med samme værdi. 50 point.____________________{(Yahtzee == -1 ? "X" : Yahtzee)}"
+                    $"11. Fuldt hus: Tre ens og et par. 40 point.____________________________{(FullHouse == -1 ? "X" : FullHouse)}",
+                    $"12. Lille straight: Fem terninger i rækkefølge fra 1 til 5. 15 point.__{(SmallStraight == -1 ? "X" : SmallStraight)}",
+                    $"13. Storestraight: Fem terninger i rækkefølge fra 2 til 6. 20 point.___{(BigStraight == -1 ? "X" : BigStraight)}",
+                    $"14. Chancen: Summen af alle fem terninger._____________________________{(Chance == -1 ? "X" : Chance)}",
+                    $"15. Yatzy: Fem terninger med samme værdi. 50 point.____________________{(Yahtzee == -1 ? "X" : Yahtzee)}",
+                    $"                                                                           ",
+                    $"Den samlede score for nederste del:____________________________________{LowerBoardScore}",
                 ];
-            foreach (string value in scoreboard)
+            
+         
+            for (int i = 0; i < scoreboard.Count(); i++)
             {
-                Console.WriteLine(value);
+                Console.SetCursorPosition(secoundColStart, Console.CursorTop = 0+i);
+                Console.WriteLine(scoreboard[i]);
+                
             }
         }
     }

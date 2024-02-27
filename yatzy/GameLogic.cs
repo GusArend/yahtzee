@@ -2,17 +2,20 @@
 {
     internal class GameLogic
     {
+        Art art = new Art();
         private Dice dice;
         private int currentPlayerIndex;
         private List<Player> players;
 
         private bool gameOver = false;
 
+      
         public GameLogic(List<Player> players)
         {
             this.players = players;
             dice = new Dice();
             currentPlayerIndex = 0;
+           
         }
 
         public void StartGame()
@@ -21,6 +24,8 @@
             {
                 Player currentPlayer = players[currentPlayerIndex];
                 Console.Clear();
+                currentPlayer.ShowScoreboard();
+                Console.SetCursorPosition(0, 0);
                 Console.WriteLine($"It is {currentPlayer.Name}'s turn: ");
                 TakeTurn();
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
@@ -33,31 +38,56 @@
             Console.ReadLine();
             int[] diceValues = dice.Roll();
             Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
-            Console.Write("Do you want to re-roll any of the dice? (y/n): ");
+            
+            ShowDice(diceValues);
+            
+
+            Console.Write("\nDo you want to re-roll any of the dice? (y/n): ");
             string reroll = Console.ReadLine();
             if (reroll == "y")
             {
                 int[] diceToReroll = Reroll();
 
-                dice.Reroll(ref diceValues, diceToReroll);
+                int[] newDiceValues = dice.Reroll(ref diceValues, diceToReroll);
                 Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
+                ShowDice(newDiceValues);
                 Console.Write("Do you want to re-roll any of the dice? (y/n): ");
                 reroll = Console.ReadLine();
                 if (reroll == "y")
                 {
                     diceToReroll = Reroll();
 
-                    int[] newDiceValues = dice.Reroll(ref diceValues, diceToReroll);
+                    newDiceValues = dice.Reroll(ref diceValues, diceToReroll);
                     Console.WriteLine($"You roll: {string.Join(", ", newDiceValues)}");
-
+                    ShowDice(newDiceValues);
                     diceValues = newDiceValues;
+                    
                 }
             }
             ChooseScore(diceValues);
+            Console.SetCursorPosition(0, 37);
             Console.Write("\nPress enter to continue.");
             Console.ReadLine();
 
             
+        }
+
+        private void ShowDice(int[] diceValues)
+        {
+            (int left, int top) = Console.GetCursorPosition();
+
+            for (int i = 0; i < 7; i++)
+            {
+                foreach (int value in diceValues)
+                {
+                    Console.SetCursorPosition(left, top);
+
+                    Console.WriteLine(art.diceFace[value][i]);
+                    left += 15;
+                }
+                left = 0;
+                top += 1;
+            }
         }
 
         private int[] Reroll()
@@ -70,6 +100,7 @@
             {
                 diceToReroll[i] = int.Parse(diceChoice[i]);
             }
+            
             return diceToReroll;
         }
 
@@ -81,7 +112,6 @@
             while (!isScoreSet)
             {
                 Console.WriteLine("Choose where to score: ");
-                players[currentPlayerIndex].ShowScoreboard();
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -191,6 +221,16 @@
                         goto default;
 
                     case 11:
+                        if (players[currentPlayerIndex].scoreboard.FullHouse == -1)
+                        {
+                            Console.WriteLine("Full House");
+                            players[currentPlayerIndex].scoreboard.UpdateFullHouse(diceValues);
+                            isScoreSet = true;
+                            break;
+                        }
+                        goto default;
+
+                    case 12:
                         
                         if (players[currentPlayerIndex].scoreboard.SmallStraight == -1){
                             Console.WriteLine("Small Straight");
@@ -200,7 +240,7 @@
                         }
                         goto default;
 
-                    case 12:
+                    case 13:
                         
                         if (players[currentPlayerIndex].scoreboard.BigStraight == -1){
                             Console.WriteLine("Big Stragiht");
@@ -210,7 +250,7 @@
                         }
                         goto default;
 
-                    case 13:
+                    case 14:
                         
                         if (players[currentPlayerIndex].scoreboard.Chance == -1) {
                             Console.WriteLine("Chance");
@@ -220,7 +260,7 @@
                         }
                         goto default;
 
-                    case 14:
+                    case 15:
                         
                         if (players[currentPlayerIndex].scoreboard.Yahtzee == -1)
                         {
