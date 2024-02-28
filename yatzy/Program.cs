@@ -51,12 +51,11 @@
 
                 List<string> winners = new List<string>();
                 int highestScore = 0;
+                Console.Clear();
+                Console.WriteLine(art.scoreBoard);
 
                 foreach (Player player in players)
                 {
-                    Console.Clear();
-                    Console.WriteLine(art.scoreBoard);
-
                     Console.WriteLine($"{player.Name}'s total score is: {player.scoreboard.TotalScore}");
 
                     if (player.scoreboard.TotalScore > highestScore)
