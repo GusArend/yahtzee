@@ -18,9 +18,9 @@
         public int Chance { get; set; }
         public int Yahtzee { get; set; }
 
-        // public int[] TopBoard;
         public int TopBoardScore { get; set; }
         public int LowerBoardScore { get; set; }
+        public int TotalScore { get; set; }
 
         public string[] scoreboard;
 
@@ -42,9 +42,6 @@
             Chance = -1;
             Yahtzee = -1;
 
-            
-
-
         }
 
         public void UpdateUpperBoard(int[] diceValues, int num)
@@ -58,6 +55,7 @@
                 }
             }
             TopBoardScore += sum;
+            TotalScore += sum;
             switch (num)
             {
                 case 1: Ones = sum; break;
@@ -95,6 +93,7 @@
             }
             OnePair = highestPairValue * 2;
             LowerBoardScore += OnePair;
+            TotalScore += OnePair;
         }
 
         public void UpdateTwoPair(int[] diceValues)
@@ -120,6 +119,7 @@
             }
             TwoPairs = pairValue;
             LowerBoardScore += TwoPairs;
+            TotalScore += TwoPairs;
         }
 
         public void UpdateThreeOfKind(int[] diceValues)
@@ -145,6 +145,7 @@
             }
             ThreeOfKind = pairValue;
             LowerBoardScore += ThreeOfKind;
+            TotalScore += ThreeOfKind;
         }
 
         public void UpdateFourOfKind(int[] diceValues)
@@ -170,6 +171,7 @@
             }
             FourOfKind = pairValue;
             LowerBoardScore += FourOfKind;
+            TotalScore += FourOfKind;
         }
 
         public void UpdateFullHouse(int[] diceValues)
@@ -208,6 +210,7 @@
             }
 
             LowerBoardScore += FullHouse;
+            TotalScore += FullHouse;
         }
 
         public void UpdateSmallStraight(int[] diceValues)
@@ -223,6 +226,7 @@
 
             SmallStraight = score;
             LowerBoardScore += SmallStraight;
+            TotalScore += SmallStraight;
         }
 
         public void UpdateBigStraight(int[] diceValues)
@@ -238,6 +242,7 @@
 
             BigStraight = score;
             LowerBoardScore += BigStraight;
+            TotalScore += BigStraight;
         }
 
         public void UpdateChance(int[] diceValues)
@@ -249,6 +254,7 @@
             }
             Chance = score;
             LowerBoardScore += Chance;
+            TotalScore += Chance;
         }
 
         public void UpdateYahtzee(int[] diceValues)
@@ -273,6 +279,7 @@
             }
             Yahtzee = score;
             LowerBoardScore += Yahtzee;
+            TotalScore += Yahtzee;
         }
 
         public void ShowScoreboard()
@@ -286,9 +293,9 @@
                     $"4. 4’ere: Summen af alle terninger med 4.______________________________{(Fours == -1 ? "X" : Fours)}",
                     $"5. 5’ere: Summen af alle terninger med 5.______________________________{(Fives == -1 ? "X" : Fives)}",
                     $"6. 6’ere: Summen af alle terninger med 6.______________________________{(Sixes == -1 ? "X" : Sixes)}",
-                    $"                                                                           ",
+                    $"",
                     $"Den samlede score for øverste del:_____________________________________{TopBoardScore}",
-                    $"                                                                           ",
+                    $"",
                     $"7. Et par: To terninger med samme værdi. Summen af terningerne.________{(OnePair == -1 ? "X" : OnePair)}",
                     $"8. To par: To forskellige par.Summen af terningerne.___________________{(TwoPairs == -1 ? "X" : TwoPairs)}",
                     $"9. Tre ens: Tre terninger med samme værdi. Summen af terningerne.______{(ThreeOfKind == -1 ? "X" : ThreeOfKind)}",
@@ -298,8 +305,10 @@
                     $"13. Storestraight: Fem terninger i rækkefølge fra 2 til 6. 20 point.___{(BigStraight == -1 ? "X" : BigStraight)}",
                     $"14. Chancen: Summen af alle fem terninger._____________________________{(Chance == -1 ? "X" : Chance)}",
                     $"15. Yatzy: Fem terninger med samme værdi. 50 point.____________________{(Yahtzee == -1 ? "X" : Yahtzee)}",
-                    $"                                                                           ",
+                    $"",
                     $"Den samlede score for nederste del:____________________________________{LowerBoardScore}",
+                    $"",
+                    $"Den samlede score:_____________________________________________________{TotalScore}",
                 ];
             
          
