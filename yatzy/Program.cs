@@ -12,7 +12,7 @@
            
             Console.WriteLine(art.yahtzee);
 
-            Console.Write("\nPress Enter to start.");
+            Console.Write("\nPlease go to full-screen. \n\nPress Enter to start.");
             Console.ReadLine();
             Console.Clear();
 
