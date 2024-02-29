@@ -42,13 +42,13 @@
                         diceValues[index - 1] = random.Next(1, 7);
                     }
                 } 
-                catch (FormatException e)
+                catch (FormatException)
                 {
                     Console.WriteLine("Please enter numbers (1-5) seperated by a space.");
                     diceChoice = [];
                     diceToReroll = [];
                 } 
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Please enter numbers (1-5) seperated by a space.");
                     diceChoice = [];

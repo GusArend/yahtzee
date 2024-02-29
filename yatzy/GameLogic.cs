@@ -11,9 +11,9 @@
         public int Rounds = 0;
 
       
-        public GameLogic(List<Player> players)
+        public GameLogic()
         {
-            this.players = players;
+            players = new List<Player>();
             dice = new Dice();
             currentPlayerIndex = 0;
            
@@ -21,21 +21,102 @@
 
         public void StartGame()
         {
+            choosePlayers();
             while (!gameOver)
             {
+                
                 Player currentPlayer = players[currentPlayerIndex];
                 Console.Clear();
                 currentPlayer.ShowScoreboard();
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine($"It is {currentPlayer.Name}'s turn: ");
+                Console.WriteLine(art.yahtzee);
+                Console.WriteLine($"\nIt is {currentPlayer.Name}'s turn: ");
                 TakeTurn();
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
                 if (Rounds / players.Count == 14)
                 {
                     gameOver = true;
                 }
+                
             }
+            endOfGame();
         } 
+
+        private void choosePlayers()
+        {
+            Console.WriteLine(art.yahtzee);
+            int playerCount = 0;
+            while (playerCount == 0)
+            {
+                try
+                {
+                    Console.Write("\nHow many players? ");
+                    playerCount = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < playerCount; i++)
+                    {
+                        Console.Write("Player{0} Enter name: ", i + 1);
+                        string name = Console.ReadLine();
+                        players.Add(new Player(name));
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Enter only numbers");
+                    playerCount = 0;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Something went wrong!");
+                    playerCount = 0;
+                }
+            }
+        }
+
+        private void endOfGame()
+        {
+            List<string> winners = new List<string>();
+            int highestScore = 0;
+            Console.Clear();
+            Console.WriteLine(art.scoreBoard);
+
+            foreach (Player player in players)
+            {
+                Console.WriteLine($"{player.Name}'s total score is: {player.scoreboard.TotalScore}");
+
+                if (player.scoreboard.TotalScore > highestScore)
+                {
+                    winners.Clear();
+                    winners.Add(player.Name);
+                    highestScore = player.scoreboard.TotalScore;
+                }
+                else if (player.scoreboard.TotalScore == highestScore)
+                {
+                    winners.Add(player.Name);
+                }
+            }
+
+            if (winners.Count == 1)
+            {
+                Console.WriteLine($"\nThe winner is {winners[0]}!\n");
+            }
+            else if (winners.Count > 1)
+            {
+                Console.WriteLine($"\n{string.Join(" and ", winners)} are tied for the winning position.");
+            }
+
+
+
+            Console.Write("PLay Again?(enter) or Exit(x): ");
+            string playAgain = Console.ReadLine();
+            if (playAgain != "x")
+            {
+                players.Clear();
+                Rounds = 0;
+                gameOver = false;
+                Console.Clear();
+                StartGame();
+            }
+        }
 
         private void TakeTurn()
         {
@@ -68,7 +149,7 @@
                 }
             }
             ChooseScore(diceValues);
-            Console.SetCursorPosition(0, 37);
+            Console.SetCursorPosition(0, 44);
             Console.Write("\nPress any key to continue.");
             Console.ReadKey();
             Rounds++;
@@ -275,10 +356,17 @@
                             goto default;
 
                         default:
-                            Console.WriteLine("You can't choose this one again!");
+                            if ((choice > 15) || (choice < 1))
+                            {
+                                Console.WriteLine("Choose a number between 1-15.");
+                            } else
+                            {
+                                Console.WriteLine("You can't choose this one again!");
+                            }
+                            
                             break;
                     }
-                } catch (FormatException e)
+                } catch (FormatException)
                 {
                     Console.WriteLine("Enter only numbers!");
                 }
