@@ -2,6 +2,7 @@
 {
     public class Scoreboard
     {
+        Art art = new Art();
         public int Ones { get; set; }
         public int Twos { get; set; }
         public int Threes { get; set; }
@@ -311,12 +312,16 @@
                     $"Den samlede score:_____________________________________________________{TotalScore}",
                 ];
             
+            for (int i = 0; i < art.scoreBoard.Length; i++)
+            {
+                Console.SetCursorPosition(secoundColStart, Console.CursorTop = 0 + i);
+                Console.WriteLine(art.scoreBoard[i]);
+            }
          
             for (int i = 0; i < scoreboard.Count(); i++)
             {
-                Console.SetCursorPosition(secoundColStart, Console.CursorTop = 0+i);
+                Console.SetCursorPosition(secoundColStart, Console.CursorTop = art.scoreBoard.Length + 1 + i);
                 Console.WriteLine(scoreboard[i]);
-                
             }
         }
     }
