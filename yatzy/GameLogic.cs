@@ -123,8 +123,7 @@
             Console.Write("Press Enter to roll the dice. \n");
             Console.ReadLine();
             int[] diceValues = dice.Roll();
-            Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
-            
+            // Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
             ShowDice(diceValues);
             
 
@@ -134,7 +133,7 @@
             {
                 
                 int[] newDiceValues = dice.Reroll(ref diceValues);
-                Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
+                // Console.WriteLine($"You roll: {string.Join(", ", diceValues)}");
                 ShowDice(newDiceValues);
                 Console.Write("Do you want to re-roll any of the dice? (y/n): ");
                 reroll = Console.ReadLine();
@@ -142,7 +141,7 @@
                 if (reroll == "y")
                 {
                     newDiceValues = dice.Reroll(ref diceValues);
-                    Console.WriteLine($"You roll: {string.Join(", ", newDiceValues)}");
+                    // Console.WriteLine($"You roll: {string.Join(", ", newDiceValues)}");
                     ShowDice(newDiceValues);
                     diceValues = newDiceValues;
                     
@@ -153,8 +152,6 @@
             Console.Write("\nPress any key to continue.");
             Console.ReadKey();
             Rounds++;
-
-            
         }
 
         private void ShowDice(int[] diceValues)
