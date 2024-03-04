@@ -203,7 +203,7 @@
             }
             if (three && pair)
             {
-                FullHouse = 40;
+                FullHouse = 30;
             }
             else
             {
@@ -288,28 +288,28 @@
             int secoundColStart = Console.WindowWidth / 2;
             scoreboard =
                 [
-                    $"1. 1’ere: Summen af alle terninger med 1.______________________________{(Ones == -1 ? "X" : Ones)}",
-                    $"2. 2’ere: Summen af alle terninger med 2.______________________________{(Twos == -1 ? "X" : Twos)}",
-                    $"3. 3’ere: Summen af alle terninger med 3.______________________________{(Threes == -1 ? "X" : Threes)}",
-                    $"4. 4’ere: Summen af alle terninger med 4.______________________________{(Fours == -1 ? "X" : Fours)}",
-                    $"5. 5’ere: Summen af alle terninger med 5.______________________________{(Fives == -1 ? "X" : Fives)}",
-                    $"6. 6’ere: Summen af alle terninger med 6.______________________________{(Sixes == -1 ? "X" : Sixes)}",
+                    $"1. Ones: Sum of all dice showing 1.____________________________________{(Ones == -1 ? "X" : Ones)}",
+                    $"2. Twos: Sum of all dice showing 2.____________________________________{(Twos == -1 ? "X" : Twos)}",
+                    $"3. Threes: Sum of all dice showing 3.__________________________________{(Threes == -1 ? "X" : Threes)}",
+                    $"4. Fours: Sum of all dice showing 4.___________________________________{(Fours == -1 ? "X" : Fours)}",
+                    $"5. Fives: Sum of all dice showing 5.___________________________________{(Fives == -1 ? "X" : Fives)}",
+                    $"6. Sixes: Sum of all dice showing 6.___________________________________{(Sixes == -1 ? "X" : Sixes)}",
                     $"",
-                    $"Den samlede score for øverste del:_____________________________________{TopBoardScore}",
+                    $"Total score for upper section:_________________________________________{TopBoardScore}",
                     $"",
-                    $"7. Et par: To terninger med samme værdi. Summen af terningerne.________{(OnePair == -1 ? "X" : OnePair)}",
-                    $"8. To par: To forskellige par.Summen af terningerne.___________________{(TwoPairs == -1 ? "X" : TwoPairs)}",
-                    $"9. Tre ens: Tre terninger med samme værdi. Summen af terningerne.______{(ThreeOfKind == -1 ? "X" : ThreeOfKind)}",
-                    $"10. Fire ens:Fire terninger med samme værdi. Summen af terningerne.____{(FourOfKind == -1 ? "X" : FourOfKind)}",
-                    $"11. Fuldt hus: Tre ens og et par. 40 point.____________________________{(FullHouse == -1 ? "X" : FullHouse)}",
-                    $"12. Lille straight: Fem terninger i rækkefølge fra 1 til 5. 15 point.__{(SmallStraight == -1 ? "X" : SmallStraight)}",
-                    $"13. Storestraight: Fem terninger i rækkefølge fra 2 til 6. 20 point.___{(BigStraight == -1 ? "X" : BigStraight)}",
-                    $"14. Chancen: Summen af alle fem terninger._____________________________{(Chance == -1 ? "X" : Chance)}",
-                    $"15. Yatzy: Fem terninger med samme værdi. 50 point.____________________{(Yahtzee == -1 ? "X" : Yahtzee)}",
+                    $"7. One Pair: Two dice with the same value. Sum of the dice.____________{(OnePair == -1 ? "X" : OnePair)}",
+                    $"8. Two Pairs: Two different pairs. Sum of the dice.____________________{(TwoPairs == -1 ? "X" : TwoPairs)}",
+                    $"9. Three of a Kind: Three dice with the same value. Sum of the dice.___{(ThreeOfKind == -1 ? "X" : ThreeOfKind)}",
+                    $"10. Four of a Kind: Four dice with the same value. Sum of the dice.____{(FourOfKind == -1 ? "X" : FourOfKind)}",
+                    $"11. Full House: Three of a Kind and a Pair. 30 points._________________{(FullHouse == -1 ? "X" : FullHouse)}",
+                    $"12. Small Straight: Five dice in sequence from 1 to 5. 15 points.______{(SmallStraight == -1 ? "X" : SmallStraight)}",
+                    $"13. Large Straight: Five dice in sequence from 2 to 6. 20 points.______{(BigStraight == -1 ? "X" : BigStraight)}",
+                    $"14. Chance: Sum of all five dice.______________________________________{(Chance == -1 ? "X" : Chance)}",
+                    $"15. Yahtzee: Five dice with the same value. 50 points._________________{(Yahtzee == -1 ? "X" : Yahtzee)}",
                     $"",
-                    $"Den samlede score for nederste del:____________________________________{LowerBoardScore}",
+                    $"Total score for lower section:_________________________________________{LowerBoardScore}",
                     $"",
-                    $"Den samlede score:_____________________________________________________{TotalScore}",
+                    $"Total score:___________________________________________________________{TotalScore}",
                 ];
             
             for (int i = 0; i < art.scoreBoard.Length; i++)
