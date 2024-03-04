@@ -54,7 +54,7 @@
                     playerCount = int.Parse(Console.ReadLine());
                     for (int i = 0; i < playerCount; i++)
                     {
-                        Console.Write("Player{0} Enter name: ", i + 1);
+                        Console.Write("Player {0} Enter name: ", i + 1);
                         string name = Console.ReadLine();
                         players.Add(new Player(name));
                     }
